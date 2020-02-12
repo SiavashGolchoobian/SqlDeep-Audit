@@ -2,11 +2,12 @@
 Monitoring Microsoft Windows and MSSQL instance related performance counters.
 With this script you can collect OS and MSSQL level perfmon counters and visualize them via power bi dashboard template named "SQLDeepAudit-Monitoring.pbit"
 
-Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.com/using-powershell-to-setup-performance-monitor-data-collector-sets/)
+Thankfully, This script is based on [Rob Barat article](https://www.aussierobsql.com/using-powershell-to-setup-performance-monitor-data-collector-sets/).
 
 ## Syntax:
+```
 	.\SqlDeepAudit.ps1 [-UI] -PerfmonCred [-ServerName] [-ServerFilePath] [-InstanceFilePath] [-ODBC <odbc_parameters>]
-```	
+	
 	<odbc_parameters> ::=
 	{
 		[-ODBCName]
@@ -14,7 +15,7 @@ Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.
 		[-SqlServerInstanceDB]
 		-SqlServerInstanceCred
 	}
-
+```
 	###### Description:
 	SqlDeepAudit will monitor some important server and microsoft sql server performance counters.
 	These counters can be extend via modifing "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" files.
