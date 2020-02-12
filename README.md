@@ -42,25 +42,25 @@ Thankfully, This script is based on [Rob Barat article](https://www.aussierobsql
 -SqlServerInstanceCred. If -ODBC switch is used, you should specify a Credential that is used by ODBC dsn to connect to SqlServerInstance.
 	
 #### Examples:
-*A.Collecting counters on disk via interactive questions.*
+*A.Collecting counters on disk via interactive questions.*\
 In this scenario data will collected on C:\Perfmon folder. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" file contain our counters that saved in same directory as SqlDeepAudit.ps1.
 ```
 .\SqlDeepAudit.ps1 -UI
 ```
 
-*B.Collecting counters to sql server database tables via interactive questions.*
+*B.Collecting counters to sql server database tables via interactive questions.*\
 In this scenario data will collected on C:\Perfmon folder and also in sql server via and ODBC connection. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" file contain our counters that saved in same directory as SqlDeepAudit.ps1.
 ```
 .\SqlDeepAudit.ps1 -UI -ODBC
 ```	
 
-*C.Collecting counters on disk in silent mode (not interactive mode).*
+*C.Collecting counters on disk in silent mode (not interactive mode).*\
 In this scenario data will collected on C:\Perfmon folder and counters collecting as "user01" privilages. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" file contain our counters that saved in same directory as SqlDeepAudit.ps1.
 ```
 .\SqlDeepAudit.ps1 -ServerName "SRV01" -PerfmonCred "user01"	
 ```
 
-*D.Collecting counters to sql server database tables in silent mode (not interactive mode).*
+*D.Collecting counters to sql server database tables in silent mode (not interactive mode).*\
 In this scenario data will collected on C:\Perfmon folder and also in sql server instance named "SRV20\WEB" that listen on static customized port of 49200 (instead of default 1433). counters collecting as "user01" privilages. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" files contain our counters that saved in same directory as SqlDeepAudit.ps1 and collected countrs will be insert in specified SqlServerInstance database named "DBA" via "domain\dbuser01" credential.
 ```
 .\SqlDeepAudit.ps1 -ServerName "SRV01" -PerfmonCred "domain\user01" -ODBC -SqlServerInstance "SRV20\WEB,49200" -SqlServerInstanceCred "domain\dbuser01"
