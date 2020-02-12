@@ -1,0 +1,16 @@
+<PerformanceCounterDataCollector>
+    <Counter>\Processor(*)\% Processor Time</Counter>
+	<Counter>\Memory\Available MBytes</Counter>
+	<Counter>\System\Processor Queue Length</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Read</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Transfer</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Write</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk Queue Length</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Read</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Transfer</Counter>
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Write</Counter>
+	<Counter>\PhysicalDisk(*)\Split IO/Sec</Counter>
+	<Counter>\PhysicalDisk(*)\Disk Transfers/sec</Counter>
+	<Counter>\PhysicalDisk(*)\Disk Reads/sec</Counter>
+	<Counter>\PhysicalDisk(*)\Disk Writes/sec</Counter>
+</PerformanceCounterDataCollector>
