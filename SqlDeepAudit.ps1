@@ -321,7 +321,7 @@ If ($myODBCFeature)
 
 #Create Data Collector set
 RaiseMessage -Message "Creating Data Collector Set '$myDCSName'..." -Info
-$myDCS = CreateDataCollectorSet -Server "$ServerName" -DataCollectorSetName "$myDCSName" -PerfmonLogPath "D:\Perfmon" #Create Data Collector Set
+$myDCS = CreateDataCollectorSet -Server "$ServerName" -DataCollectorSetName "$myDCSName" -PerfmonLogPath "C:\Perfmon" #Create Data Collector Set
 CommitChanges -Server "$ServerName" -DataCollectorSet $myDCS -DataCollectorSetName "$myDCSName" -PerfmonCredential $PerfmonCred #Commit Data Collector Set changes
 RaiseMessage -Message "Data Collector Set '$myDCSName' is created." -Info
 
