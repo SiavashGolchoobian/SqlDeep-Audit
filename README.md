@@ -15,7 +15,7 @@ Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.
 		-SqlServerInstanceCred
 	}
 
-	** Description: **
+	######Description:
 	SqlDeepAudit will monitor some important server and microsoft sql server performance counters.
 	These counters can be extend via modifing "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" files.
 	
