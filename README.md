@@ -22,17 +22,26 @@ Thankfully, This script is based on [Rob Barat article](https://www.aussierobsql
 	
 #### Arguments:
 -UI. You can run script by using only this switch. with this switch script will run in interactve mode and ask all parameter values via console interface.
+
 -PerfmonCred. You should specify a Credential for perfmon to collecting counters by that account.
+
 -ServerName. You can specify name of machine that you want to monitor, default value is current machine name.
+
 -ServerFilePath. You can specify XML file path that contain OS level counters via this parameter, default value is "<current_location>\SqlDeepAudit-Server.xml"
+
 -InstanceFilePath. You can specify XML file path that contain SQL level counters via this parameter, default value is "<current_location>\SqlDeepAudit-Instance.xml"
+
 -ODBC. This switch force Perfmon app to save collected counters into a Sql Server table via an ODBC connection.
+
 -ODBCName. If -ODBC switch is used, you can set specific DSN name for your ODBC connection, but if you dont set any name for this parameter default value will be used. default is "DBA".
+
 -SqlServerInstance. If -ODBC switch is used, you should specify Microsoft SQL Server Instance name that used by ODBC connection to store counters data on it.
+
 -SqlServerInstanceDB. If -ODBC switch is used, you can specify existed Database name inside the SqlServerInstance to create appropriate tables for collectiong perfmon data on it. default database name is "DBA".
+
 -SqlServerInstanceCred. If -ODBC switch is used, you should specify a Credential that is used by ODBC dsn to connect to SqlServerInstance.
 	
-#### **Examples:**
+#### Examples:
 *A.Collecting counters on disk via interactive questions.*
 	In this scenario data will collected on C:\Perfmon folder. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" file contain our counters that saved in same directory as SqlDeepAudit.ps1.
 ```
