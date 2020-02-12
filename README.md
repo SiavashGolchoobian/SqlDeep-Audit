@@ -4,7 +4,7 @@ With this script you can collect OS and MSSQL level perfmon counters and visuali
 
 Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.com/using-powershell-to-setup-performance-monitor-data-collector-sets/)
 
-Syntax:
+<b>Syntax:</b><br>
 	.\SqlDeepAudit.ps1 [-UI] -PerfmonCred [-ServerName] [-ServerFilePath] [-InstanceFilePath] [-ODBC <odbc_parameters>]
 	
 	<odbc_parameters> ::=
