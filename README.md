@@ -16,11 +16,11 @@ Thankfully, This script is based on [Rob Barat article](https://www.aussierobsql
 		-SqlServerInstanceCred
 	}
 ```
-###### **Description:**
+####Description:
 	SqlDeepAudit will monitor some important server and microsoft sql server performance counters.
 	These counters can be extend via modifing "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" files.
 	
-#### **Arguments:**
+####Arguments:
 -UI. You can run script by using only this switch. with this switch script will run in interactve mode and ask all parameter values via console interface.
 -PerfmonCred. You should specify a Credential for perfmon to collecting counters by that account.
 -ServerName. You can specify name of machine that you want to monitor, default value is current machine name.
@@ -32,7 +32,7 @@ Thankfully, This script is based on [Rob Barat article](https://www.aussierobsql
 -SqlServerInstanceDB. If -ODBC switch is used, you can specify existed Database name inside the SqlServerInstance to create appropriate tables for collectiong perfmon data on it. default database name is "DBA".
 -SqlServerInstanceCred. If -ODBC switch is used, you should specify a Credential that is used by ODBC dsn to connect to SqlServerInstance.
 	
-###### **Examples:**
+#### **Examples:**
 *A.Collecting counters on disk via interactive questions.*
 	In this scenario data will collected on C:\Perfmon folder. Also "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" file contain our counters that saved in same directory as SqlDeepAudit.ps1.
 ```
