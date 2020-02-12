@@ -6,7 +6,7 @@ Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.
 
 ## Syntax:
 	.\SqlDeepAudit.ps1 [-UI] -PerfmonCred [-ServerName] [-ServerFilePath] [-InstanceFilePath] [-ODBC <odbc_parameters>]
-	
+```	
 	<odbc_parameters> ::=
 	{
 		[-ODBCName]
@@ -14,7 +14,7 @@ Thankfully, This script is based on Rob Barat article (https://www.aussierobsql.
 		[-SqlServerInstanceDB]
 		-SqlServerInstanceCred
 	}
-
+```
 	######Description:
 	SqlDeepAudit will monitor some important server and microsoft sql server performance counters.
 	These counters can be extend via modifing "SQLDeepAudit-Server.xml" and "SQLDeepAudit-Instance.xml" files.
