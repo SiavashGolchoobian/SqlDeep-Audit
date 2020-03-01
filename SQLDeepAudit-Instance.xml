@@ -4,9 +4,13 @@
 	<Counter>\%instance%:SQL Statistics\Recompilations/sec</Counter>
     <Counter>\%instance%:Buffer Manager\Page life expectancy</Counter>
 	<Counter>\%instance%:Buffer Manager\Buffer cache hit ratio</Counter>
+	<Counter>\%instance%:Buffer Manager\Buffer cache hit ratio</Counter>
+	<Counter>\%instance%:Plan Cache\Cache Hit Ratio</Counter>
 	<Counter>\%instance%:General Statistics\User Connections</Counter>
 	<Counter>\%instance%:Memory Manager\Memory Grants Pending</Counter>
 	<Counter>\%instance%:Locks\Number of Deadlocks/sec</Counter>
 	<Counter>\%instance%:Transactions\Transactions</Counter>
 	<Counter>\%instance%:Deprecated Features\Usage</Counter>
+	<Counter>\%instance%:Databases(_Total)\Transactions/sec</Counter>
+	<Counter>\%instance%:Databases(_Total)\Active Transactions</Counter>
 </PerformanceCounterDataCollector>
