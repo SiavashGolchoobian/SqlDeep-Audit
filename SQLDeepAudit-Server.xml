@@ -1,16 +1,35 @@
 <PerformanceCounterDataCollector>
-    <Counter>\Processor(*)\% Processor Time</Counter>
-	<Counter>\Memory\Available MBytes</Counter>
-	<Counter>\System\Processor Queue Length</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Read</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Transfer</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Write</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk Queue Length</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Read</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Transfer</Counter>
-	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Write</Counter>
+	<Counter>\Processor(*)\% Processor Time</Counter>				<!--CPU Performance: Percentage of time processor was busy, Recommended average value be under 80%-->
+	<Counter>\Processor(_Total)\% Processor Time</Counter>			<!--CPU Performance: Percentage of time processor was busy, Recommended average value be under 80%-->
+	<Counter>\Processor(_Total)\% Privileged Time</Counter>			<!--CPU Performance: Percentage of processor time spent in privileged mode, Recommended average value be under 20% for dedicated SQL Server machine. All system-level activities, including disk access, are done in privileged mode. If you find that % Privileged Time on a dedicated SQL Server system is 20 to 25 percent or more, then the system is probably doing a lot of external processing. It could be I/O, a filter driver such as encryption services, defective I/O components, or even outof-date drivers.-->
+	<Counter>\System\Processor Queue Length</Counter>				<!--CPU Performance: Number of requests outstanding on the processor, A processor queue length more than two times the number of schedulers (usually 1:1 with processors) can also indicate a processor bottleneck, If the recommended value is exceeded, this generally indicates that there are more threads ready to run than the current number of processors can service in an optimal way.-->
+	<Counter>\System\Context Switches/sec</Counter>					<!--CPU Performance: Rate at which processor is switched per processor from one thread to another (because of switching need between user mode and privileged mode or because of thread-priority), Recommended average value be under 5000. High numbers are largely dictated by the speed of your CPUs-->
+	<Counter>\Process(sqlservr)\% Processor Time</Counter>			<!--CPU Performance: This counter measures the percentage of total processor time spent (user mode and kernel mode) on SQL Server process threads. If this counter stays at 80% for sustained periods of time, then you may also wish to investigate other Process (sqlservr) such as Private Bytes, Virtual Bytes, and Working Set to get a better understanding of how SQL Server allocates certain segments of memory. This value should be less than 80. (Source:PAL)-->
+	<Counter>\Process(sqlservr)\Private Bytes</Counter>				<!--Memory Performance: Indication of MemToLeave usage (Out of memory error in SQL server is a result of low MemToLeave or in another word, OS Memory). Amount of memory that the process executable has asked for - not necessarily the amount it is actually using, this is what your app has actually allocated, but include pagefile usage.-->
+	<Counter>\Process(sqlservr)\Working Set</Counter>				<!--Memory Performance: (equal to [DBCC MEMORYSTATUS]>[Process/System Counts section]>[Working Set]), (equal to [SELECT [physical_memory_in_use_kb]*1024 AS [Sql_physical_mem_in_use_bytes] from sys.dm_os_process_memory]), The Working Set is the set of memory pages touched recently by the threads in the process and measured as bytes.This is the non-paged Private Bytes plus memory-mapped files that currently stored in main memory.-->
+	<Counter>\Process(sqlservr)\Virtual Bytes</Counter>				<!--Memory Performance: (equal to [SELECT [virtual_address_space_committed_kb]*1024 AS [sql_committed_byes] from sys.dm_os_process_memory]), Is the Working Set plus paged Private Bytes and standby list (standby list is bytes that are awaiting to be re-allocated by a run-time environment's memory manager)-->
+	<Counter>\Process(sqlservr)\Working Set - Private</Counter>		<!--Memory Performance: Working Set - Private displays the size of the working set, in bytes, that is use for this process only and not shared nor sharable by other processes. This counter is probably the best metric for your use (https://superuser.com/questions/618686/private-bytes-vs-working-set-in-process-explorer)-->
+	<Counter>\Process(sqlservr)\Page Faults/sec</Counter>			<!--Memory Performance: A page fault occurs when a thread refers to a virtual memory page that is not in its working set in main memory. This may not cause the page to be fetched from disk if it is on the standby list and hence already in main memory, or if it is in use by another process with whom the page is shared.-->
+	<Counter>\Process(sqlservr)\Thread Count</Counter>				<!--The number of threads currently active in this process. An instruction is the basic unit of execution in a processor, and a thread is the object that executes instructions. Every running process has at least one thread.-->
+	<Counter>\Memory\Available MBytes</Counter>						<!--Memory Performance: The Available Bytes counter represents free physical memory in the system. A rule of thumb is to look into this counter when the value drops below 5% of all available memory-->
+	<Counter>\Memory\Page Faults/sec</Counter>						<!--Memory Performance: rate of total page faults (soft page faults plus hard page faults), this counter is sum of hard page fault (read data from disk) + soft page fault (read ata from ram address)-->
+	<Counter>\Memory\Pages/sec</Counter>							<!--Memory Performance: rate of only hard page faults (indication of bottleneck because of read data from disk for har page faults), this counter is most important than Page Faults/sec-->
+	<Counter>\Memory\Pages Output/sec</Counter>						<!--Memory Performance: Pages output are usually represented by the application’s dirty pages that need to be backed out to the disk. Pages Output/sec is an issue only when disk load become an issue-->
+	<Counter>\Memory\Pages Input/sec</Counter>						<!--Memory Performance: An application will wait only on an input page-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Read</Counter>		<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Transfer</Counter>	<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk Bytes/Write</Counter>		<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk Queue Length</Counter>		<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Read</Counter>			<!--Disk Performance: Read Latency, 1ms for Log disk (Sequential IO) and under 10 ms for data disk (Random IO)-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Transfer</Counter>		<!--Disk Performance: Read + Write (IO) Latency, 1ms for Log disk (Sequential IO) and under 10 ms for data disk (Random IO)-->
+	<Counter>\PhysicalDisk(*)\Avg. Disk sec/Write</Counter>			<!--Disk Performance: Write Latency, 1ms for Log disk (Sequential IO) and under 10 ms for data disk (Random IO)-->
 	<Counter>\PhysicalDisk(*)\Split IO/Sec</Counter>
-	<Counter>\PhysicalDisk(*)\Disk Transfers/sec</Counter>
-	<Counter>\PhysicalDisk(*)\Disk Reads/sec</Counter>
-	<Counter>\PhysicalDisk(*)\Disk Writes/sec</Counter>
+	<Counter>\PhysicalDisk(*)\Disk Transfers/sec</Counter>			<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Disk Reads/sec</Counter>				<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Disk Writes/sec</Counter>				<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Disk Bytes/sec</Counter>				<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Disk Read Bytes/sec</Counter>			<!--Disk Performance-->
+	<Counter>\PhysicalDisk(*)\Disk Write Bytes/sec</Counter>		<!--Disk Performance-->
+	<Counter>\Network Interface(*)\Bytes Total/sec</Counter>		<!--Network Performance: Rate at which bytes are transferred on the Nic, Recommend to Avg Value under 50% of Network Interface(*)\Current Bandwidth counter-->
+	<Counter>\Network Interface(*)\Current Bandwidth</Counter>		<!--Network Performance-->
 </PerformanceCounterDataCollector>
