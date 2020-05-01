@@ -1,17 +1,17 @@
 ﻿# sqldeep.com
-# Author: siavash.golchoobian@gmail.com
+# Author: golchoobian@sqldeep.com
 #--------------------------------------------------------------Parameters.
 Param(
 	[switch]$UI, #Use interactive mode
 	[switch]$ODBC, #Use ODBC driver for logging counters
     [string]$ServerName, #the server name to monitor (default is $env:COMPUTERNAME)
-    [System.Management.Automation.CredentialAttribute()]$PerfmonCred, #Perfmon credential
+    [PSCredential]$PerfmonCred, #Perfmon credential
 	[string]$ServerFilePath, #the Server wide counter config file path
 	[string]$InstanceFilePath, #the Instance wide counter config file path
 	[string]$ODBCName, #ODBC DSN name of Target MSSQL To storing Perfmon Data Collector (default is DBA)
     [string]$SqlServerInstance, #Target SQL Instance FQDN To storing Perfmon Data Collector
     [string]$SqlServerInstanceDB, #Database name of Target MSSQL To storing Perfmon Data Collector (default is DBA)
-	[System.Management.Automation.CredentialAttribute()]$SqlServerInstanceCred #ODBC related Credential for connecting to specified SQL Server Instance
+	[PSCredential]$SqlServerInstanceCred #ODBC related Credential for connecting to specified SQL Server Instance
     )
 	
 #--------------------------------------------------------------Functions start here.
@@ -259,50 +259,57 @@ $myDCSName="SqlDeep"
 $myRootXMLPath=If ((Right -Text "$PSScriptRoot" -Length 2) -eq ":\") {"$PSScriptRoot"} else {"$PSScriptRoot\"}
 $myRootXMLPathOfServer="$myRootXMLPath" + "SqlDeepAudit-Server.xml"
 $myRootXMLPathOfInstance="$myRootXMLPath" + "SqlDeepAudit-Instance.xml"
+$myDefaultServerName="$env:COMPUTERNAME"
+$myDefaultServerFilePath=$myRootXMLPathOfServer
+$myDefaultInstanceFilePath=$myRootXMLPathOfInstance
+$myDefaultODBCName="DBA"
+$myDefaultSqlServerInstance="$env:COMPUTERNAME"
+$myDefaultSqlServerInstanceDB="DBA"
 
 If ($UI)
 {
-    $ServerName=Read-Host -Prompt "Enter the server name to monitor (default is $env:COMPUTERNAME)"
+    $ServerName=Read-Host -Prompt "Enter the server name to monitor (default is $myDefaultServerName)"
     $PerfmonCred=Get-Credential -Message "Perfmon Credential"
-    $ServerFilePath=Read-Host -Prompt "Enter the Server wide counter config file path (default is $myRootXMLPathOfServer)"
-    $InstanceFilePath=Read-Host -Prompt "Enter the Instance wide counter config file path (default is $myRootXMLPathOfInstance)"
+    $ServerFilePath=Read-Host -Prompt "Enter the Server wide counter config file path (default is $myDefaultServerFilePath)"
+    $InstanceFilePath=Read-Host -Prompt "Enter the Instance wide counter config file path (default is $myDefaultInstanceFilePath)"
     If ($myODBCFeature)
     {
-        $ODBCName=Read-Host -Prompt "ODBC DSN name of Target MSSQL To storing Perfmon Data Collector (default is DBA)"
-        $SqlServerInstance=Read-Host -Prompt "ODBC related SQL Instance address to storing Perfmon Data Collector (server\instance)"
-        $SqlServerInstanceDB=Read-Host -Prompt "ODBC related database name to storing Perfmon Data Collector (default is DBA)"
+        $ODBCName=Read-Host -Prompt "ODBC DSN name of Target MSSQL To storing Perfmon Data Collector (default is $myDefaultODBCName)"
+        $SqlServerInstance=Read-Host -Prompt "ODBC related SQL Instance address to storing Perfmon Data Collector (server\instance default is $myDefaultSqlServerInstance)"
+        $SqlServerInstanceDB=Read-Host -Prompt "ODBC related database name to storing Perfmon Data Collector (default is $myDefaultSqlServerInstanceDB)"
         $SqlServerInstanceCred=Get-Credential -Message "ODBC related Credential for connecting to specified SQL Server Instance"
     }
 }
-else
+
+If(-not($ServerName)) {$ServerName=$myDefaultServerName}
+If(-not($ServerFilePath)) {$ServerFilePath=$myDefaultServerFilePath}
+If(-not($InstanceFilePath)) {$InstanceFilePath=$myDefaultServerFilePath}
+If (!($PerfmonCred) -and ($PerfmonCred.UserName).Length>0)
 {
-    If (!($PerfmonCred))
+    $myUser=$PerfmonCred.UserName
+    $PerfmonCred=Get-Credential -UserName $myUser -Message "Perfmon Credential"
+}
+If ($myODBCFeature)
+{
+    If(-not($ODBCName)) {$ODBCName=$myDefaultODBCName}
+    If(-not($SqlServerInstance)) {$SqlServerInstance=$myDefaultSqlServerInstance}
+    If(-not($SqlServerInstanceDB)) {$SqlServerInstanceDB=$myDefaultSqlServerInstanceDB}
+    If(!($SqlServerInstanceCred) -and ($SqlServerInstanceCred.UserName).Length>0)
     {
-        $PerfmonCred=Get-Credential -UserName $PerfmonCred.UserName -Message "Perfmon Credential"
-    }
-    If (($myODBCFeature) -and (!($SqlServerInstanceCred)))
-    {
-        $SqlServerInstanceCred=Get-Credential -UserName $SqlServerInstanceCred.UserName -Message "ODBC related Credential for connecting to specified SQL Server Instance"
+        $myUser=$SqlServerInstanceCred.UserName
+        $SqlServerInstanceCred=Get-Credential -UserName $myUser -Message "ODBC related Credential for connecting to specified SQL Server Instance"
     }
 }
 
 #--------------------------------------------------------------Main Body
 #Validating input parameters
-If(-not($ServerName)) {$ServerName=$env:COMPUTERNAME}
 If(-not($PerfmonCred)) {RaiseMessage -Message "Perfmon credential is missing" -Error -Exit}
-If(-not($ServerFilePath)) {$ServerFilePath="$myRootXMLPathOfServer"}
-If(-not($InstanceFilePath)) {$InstanceFilePath="$myRootXMLPathOfInstance"}
+If(($myODBCFeature) -and -not($SqlServerInstanceCred)) {RaiseMessage -Message "ODBC related Credential for connecting to specified SQL Server Instance is missing" -Error -Exit}
 RaiseMessage -Message "Testing $ServerName connection..." -Info
 If (!(Test-Connection -ComputerName $ServerName -Quiet)) {RaiseMessage -Message "Specified Server name ($ServerName) does not respond." -Error -Exit}
 If (!(Test-Path -PathType Leaf $ServerFilePath)) {RaiseMessage -Message "Server config file path ($ServerFilePath) is invalid." -Error -Exit}
 If (!(Test-Path -PathType Leaf $InstanceFilePath)) {RaiseMessage -Message "Instance config file path($InstanceFilePath) is invalid." -Error -Exit}
-If ($myODBCFeature)
-{
-    If(-not($ODBCName)) {$ODBCName="DBA"}
-    If(-not($SqlServerInstance)) {RaiseMessage -Message "SQL Instance name is missing" -Error -Exit}
-    If(-not($SqlServerInstanceDB)) {$SqlServerInstanceDB="DBA"}
-    If(-not($SqlServerInstanceCred)) {RaiseMessage -Message "SQL Instance credential is missing" -Error -Exit}
-}
+
 
 #Create ODBC connection
 If ($myODBCFeature)
