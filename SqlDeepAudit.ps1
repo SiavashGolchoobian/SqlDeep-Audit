@@ -301,7 +301,19 @@ If ($myODBCFeature)
     }
 }
 
+
 #--------------------------------------------------------------Main Body
+RaiseMessage -Message "==========Perfmon Informtion==========" -Info
+RaiseMessage -Message "ServerName: $ServerName" -Info
+RaiseMessage -Message "PerfmonCred: $($PerfmonCred.UserName)" -Info
+RaiseMessage -Message "ServerFilePath: $ServerFilePath" -Info
+RaiseMessage -Message "InstanceFilePath: $InstanceFilePath" -Info
+RaiseMessage -Message "ODBCName: $ODBCName" -Info
+RaiseMessage -Message "SqlServerInstance: $SqlServerInstance" -Info
+RaiseMessage -Message "SqlServerInstanceDB: $SqlServerInstanceDB" -Info
+RaiseMessage -Message "SqlServerInstanceCred: $($SqlServerInstanceCred.UserName)" -Info
+RaiseMessage -Message "=====================================" -Info
+
 #Validating input parameters
 If(-not($PerfmonCred)) {RaiseMessage -Message "Perfmon credential is missing" -Error -Exit}
 If(($myODBCFeature) -and -not($SqlServerInstanceCred)) {RaiseMessage -Message "ODBC related Credential for connecting to specified SQL Server Instance is missing" -Error -Exit}
@@ -398,6 +410,13 @@ foreach ($myInstance in $myInstances)
     }
 }
 
+#Set Data Collector set scheduler to run with 1 minute delay after server reboot
+$myInterval = (New-TimeSpan -Minutes 2)
+$myScheduledTask = Get-ScheduledTask -TaskName $myDCSName
+$myScheduledTarget = New-ScheduledTaskTrigger -AtStartup
+$myScheduledTarget.Delay = "PT2M"
+$myScheduledSettingSet = New-ScheduledTaskSettingsSet -RestartCount 10 -RestartInterval $myInterval
+Set-ScheduledTask -TaskName $myDCSName -TaskPath $myScheduledTask.TaskPath -Trigger $myScheduledTarget -Settings $myScheduledSettingSet -User $PerfmonCred.UserName -Password $PerfmonCred.GetNetworkCredential().Password
 
 #Start the data collector set.
 try 
